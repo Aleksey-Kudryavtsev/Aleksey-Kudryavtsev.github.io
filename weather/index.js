@@ -24,6 +24,7 @@ callWs = function () {
           let li = document.createElement('li');
           let date = new Date(m.description.date);
           li.innerText = `${date.getHours()}:${date.getMinutes()} ${m.description.temperature} ${m.description.water} ${m.description.wind}`;
+          li.style = 'font-size: 15px';
           resultElement.appendChild(li);
         }
       }
