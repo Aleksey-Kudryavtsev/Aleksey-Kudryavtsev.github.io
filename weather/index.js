@@ -4,8 +4,9 @@ addEventListener("load", (event) => {
 
 callWs = function () {
   // The Endpoint URL
-  let url = 'https://pogoda.by/api/v2/maps/meteo-10min';
-  fetch(url)
+  let dataUrl = 'https://pogoda.by/api/v2/maps/meteo-10min';
+  let radarUrl = 'https://pogoda.by/api/v2/radar/26850';
+  fetch(dataUrl)
     .then(function (response) {
       // Render the Response Status
       //document.getElementById('result').innerHTML = response.status;
@@ -28,4 +29,17 @@ callWs = function () {
         }
       }
     })
+    .then(
+      function() {
+        return fetch(radarUrl).then(function(response) {
+          return response.json();
+        });
+      }
+    )
+    .then(function(radarImageData) {
+       let imageUrl = 'https://pogoda.by/files/radars/static/26850/' + radarImageData[radarImageData.length-1].url;
+       let imageElement = document.getElementById('radarImage');
+       imageElement.src = imageUrl;
+    });  
+
 }
