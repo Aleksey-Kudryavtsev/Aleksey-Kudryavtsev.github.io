@@ -4,3 +4,13 @@
 #radarImage {
     max-width: 100%;
 }
+
+@media(prefers-color-scheme: dark) {
+    body {
+        background-color: black;
+        color: #BFBFBF;
+    }
+    img {
+        filter: invert(100%);
+    }
+}
