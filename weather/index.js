@@ -3,7 +3,7 @@ addEventListener("load", (event) => {
 });
 
 function formatMinutes(minutes) {
-  return minutes > 9  ? `${minutes}` : $`0${minutes}`;
+  return minutes > 9  ? `${minutes}` : `0${minutes}`;
 }
 
 callWs = function () {
