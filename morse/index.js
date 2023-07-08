@@ -133,3 +133,8 @@ async function convertAndPlay() {
   }
   playMorseCode(morseCode);
 }
+
+function showHideToggle() {
+  let inputElem = document.getElementById('inputText');
+  inputElem.hidden = !inputElem.hidden;
+}
