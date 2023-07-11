@@ -88,19 +88,19 @@ async function convertAndPlay() {
   const wordSpaceDuration = ditDuration * 7;
 
   async function playBeep(duration) {
+    const fadingDuration = 15;
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    oscillator.frequency.value = 500; // 300Hz
+    oscillator.frequency.value = 600; // 600Hz
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
+    gainNode.gain.setValueAtTime(0.000001, audioContext.currentTime);
     oscillator.start();
-    let fadingDuration = 30;
+    gainNode.gain.setTargetAtTime(1, audioContext.currentTime, fadingDuration/1000.0);
     await sleep(duration - fadingDuration);
-    gainNode.gain.setValueAtTime(gainNode.gain.value, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + fadingDuration / 1000.0);
-    await sleep(fadingDuration);
-    oscillator.stop();
+    gainNode.gain.setTargetAtTime(0.000001, audioContext.currentTime, fadingDuration/1000.0);
+    await sleep(fadingDuration);    
   }
 
   async function playMorseCode(code) {
