@@ -9,6 +9,19 @@ const morseCodes = {
 
 const supportedCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('').sort((c1, c2) => morseCodes[c1].length > morseCodes[c2].length ? 1 : -1).join('');
 
+let gainNode = null;
+let audioContext = null;
+(function initOscillator() {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  let oscillator = audioContext.createOscillator();
+  gainNode = audioContext.createGain();
+  oscillator.frequency.value = 600; // 300Hz
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  gainNode.gain.setValueAtTime(0.000001, audioContext.currentTime);
+  oscillator.start();
+})();
+
 function saveCheckboxState(character) {
   const checkbox = document.getElementById(`checkbox-${character}`);
   localStorage.setItem(`checkbox-${character}`, checkbox.checked);
@@ -89,18 +102,11 @@ async function convertAndPlay() {
 
   async function playBeep(duration) {
     const fadingDuration = 15;
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    oscillator.frequency.value = 600; // 600Hz
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    gainNode.gain.setValueAtTime(0.000001, audioContext.currentTime);
-    oscillator.start();
-    gainNode.gain.setTargetAtTime(1, audioContext.currentTime, fadingDuration/1000.0);
+
+    gainNode.gain.setTargetAtTime(1, audioContext.currentTime, fadingDuration / 1000.0);
     await sleep(duration - fadingDuration);
-    gainNode.gain.setTargetAtTime(0.000001, audioContext.currentTime, fadingDuration/1000.0);
-    await sleep(fadingDuration);    
+    gainNode.gain.setTargetAtTime(0.000001, audioContext.currentTime, fadingDuration / 1000.0);
+    await sleep(fadingDuration);
   }
 
   async function playMorseCode(code) {
