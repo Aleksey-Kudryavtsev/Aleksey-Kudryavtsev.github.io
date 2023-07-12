@@ -11,16 +11,19 @@ const supportedCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('').sor
 
 let gainNode = null;
 let audioContext = null;
-(function initOscillator() {
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  let oscillator = audioContext.createOscillator();
-  gainNode = audioContext.createGain();
-  oscillator.frequency.value = 600; // 300Hz
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  gainNode.gain.setValueAtTime(0.000001, audioContext.currentTime);
-  oscillator.start();
-})();
+
+function initOscillator() {
+  if (audioContext === null) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let oscillator = audioContext.createOscillator();
+    gainNode = audioContext.createGain();
+    oscillator.frequency.value = 600; // 300Hz
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    gainNode.gain.setValueAtTime(0.000001, audioContext.currentTime);
+    oscillator.start();
+  }
+};
 
 function saveCheckboxState(character) {
   const checkbox = document.getElementById(`checkbox-${character}`);
@@ -91,8 +94,6 @@ function sleep(ms) {
 }
 
 async function convertAndPlay() {
-
-
   let inputText = document.getElementById('inputText').value.toUpperCase();
   const ditDuration = 100; // milliseconds
   const dahDuration = ditDuration * 3;
@@ -101,6 +102,8 @@ async function convertAndPlay() {
   const wordSpaceDuration = ditDuration * 7;
 
   async function playBeep(duration) {
+    initOscillator();
+
     const fadingDuration = 15;
 
     gainNode.gain.setTargetAtTime(1, audioContext.currentTime, fadingDuration / 1000.0);
