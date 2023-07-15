@@ -121,6 +121,9 @@ async function convertAndPlay() {
       else if (code[i] === '-') {
         await playBeep(dahDuration);
       }
+      else if (code[i] === '^') {
+        await sleep(ditDuration);
+      }
       else if (code[i] === '/') {
         await sleep(letterSpaceDuration);
       }
@@ -135,7 +138,7 @@ async function convertAndPlay() {
   for (let i = 0; i < inputText.length; i++) {
     const char = inputText[i];
     if (char in morseCodes) {
-      morseCode += morseCodes[char];
+      morseCode += morseCodes[char].split('').join('^');
     } else {
       morseCode += char;
     }
