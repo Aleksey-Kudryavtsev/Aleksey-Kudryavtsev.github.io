@@ -93,8 +93,12 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function getInputText() {
+  return document.getElementById('inputText').value.toUpperCase();
+}
+
 async function convertAndPlay() {
-  let inputText = document.getElementById('inputText').value.toUpperCase();
+  let inputText = getInputText();
   const ditDuration = 100; // milliseconds
   const dahDuration = ditDuration * 3;
   const spaceDuration = ditDuration;
@@ -157,4 +161,19 @@ function onKeyUpBody(e) {
   }
 }
 
+function onConfirmationChange() {
+  let inputText = getInputText().trim();
+  let confirmationElement = document.getElementById("confirmation");
+  let confirmationText = confirmationElement.value.toUpperCase().trim();
+  
+  if(inputText === confirmationText) {
+    confirmationElement.style.backgroundColor = '#00FF00';
+  } else {
+    confirmationElement.style.backgroundColor = '#FFFFFF';
+  }
+}
+
 document.body.addEventListener("keyup", (e) => onKeyUpBody(e));
+
+let confirmation = document.getElementById("confirmation");
+confirmation.addEventListener("input", (e) => onConfirmationChange(e));
