@@ -104,7 +104,7 @@ async function convertAndPlay() {
   async function playBeep(duration) {
     initOscillator();
 
-    const fadingDuration = 15;
+    const fadingDuration = 5;
 
     gainNode.gain.setTargetAtTime(1, audioContext.currentTime, fadingDuration / 1000.0);
     await sleep(duration - fadingDuration);
