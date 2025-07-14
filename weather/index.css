@@ -9,8 +9,5 @@
     body {
         background-color: black;
         color: #BFBFBF;
-    }
-    img {
-        filter: invert(100%);
-    }
+   } 
 }
