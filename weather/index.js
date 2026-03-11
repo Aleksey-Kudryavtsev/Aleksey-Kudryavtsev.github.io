@@ -10,7 +10,7 @@ callWs = function () {
   // The Endpoint URL
   let dataUrl = 'https://pogoda.by/api/v2/maps/meteo-10min';
   let radarUrl = 'https://pogoda.by/api/v2/radar/26850';
-  fetch(dataUrl)
+  fetch(dataUrl, {referrerPolicy: 'no-referrer'})
     .then(function (response) {
       // Render the Response Status
       //document.getElementById('result').innerHTML = response.status;
@@ -35,7 +35,7 @@ callWs = function () {
     })
     .then(
       function() {
-        return fetch(radarUrl).then(function(response) {
+        return fetch(radarUrl, {referrerPolicy: 'no-referrer'}).then(function(response) {
           return response.json();
         });
       }
