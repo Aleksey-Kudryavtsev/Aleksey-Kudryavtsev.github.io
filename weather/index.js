@@ -6,15 +6,11 @@ function formatMinutes(minutes) {
   return minutes > 9  ? `${minutes}` : `0${minutes}`;
 }
 
-function corsProxy(url) {
-  return 'https://corsproxy.io/?' + encodeURIComponent(url);
-}
-
 callWs = function () {
   // The Endpoint URL
   let dataUrl = 'https://pogoda.by/api/v2/maps/meteo-10min';
   let radarUrl = 'https://pogoda.by/api/v2/radar/26850';
-  fetch(corsProxy(dataUrl), {referrerPolicy: 'no-referrer'})
+  fetch(dataUrl)
     .then(function (response) {
       // Render the Response Status
       //document.getElementById('result').innerHTML = response.status;
@@ -39,13 +35,13 @@ callWs = function () {
     })
     .then(
       function() {
-        return fetch(corsProxy(radarUrl), {referrerPolicy: 'no-referrer'}).then(function(response) {
+        return fetch(radarUrl).then(function(response) {
           return response.json();
         });
       }
     )
     .then(function(radarImageData) {
-       let imageUrl = corsProxy('https://pogoda.by/files/radars/static/26850/' + radarImageData[radarImageData.length-1].url);
+       let imageUrl = 'https://pogoda.by/files/radars/static/26850/' + radarImageData[radarImageData.length-1].url;
        let imageElement = document.getElementById('radarImage');
        imageElement.src = imageUrl;
     });  
