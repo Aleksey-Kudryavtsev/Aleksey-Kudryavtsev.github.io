@@ -24,8 +24,8 @@ callWs = function () {
 
       let resultElement = document.getElementById('result');
       for (let m of mesurements) {
-        if (m.coordinates[0] > 27.260 && m.coordinates[0] < 27.874
-          && m.coordinates[1] > 53.725 && m.coordinates[1] < 54.085) {
+        if (m.coordinates[0] > 27.37241 && m.coordinates[0] < 27.72359
+          && m.coordinates[1] > 53.83023 && m.coordinates[1] < 53.98983) {
           let li = document.createElement('li');
           let date = new Date(m.description.date);
           li.innerText = `${date.getHours()}:${formatMinutes(date.getMinutes())} ${m.description.temperature} ${m.description.water} ${m.description.wind}`;          
